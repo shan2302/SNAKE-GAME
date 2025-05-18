@@ -11,33 +11,44 @@
 #define SNAKE_LEN 51
 #include "snake.h"
 
-void move(int c_col,int c_row,int *f_row,int *f_col,int *point,struct Snake *snake,int *cur_snake_len)
+void move(int c_col,int c_row,int *f_row,int *f_col,int *point,struct Snake *snake,int *cur_snake_len,bool *game_over)
 {
+    
     system("cls");
+    
     if(c_row==*f_row&&c_col==*f_col)
     {
-        int i;
         
-        *f_row=rand()%(T_ROW+1);
-        *f_col=rand()%(T_COL+1);
+        int i;
+        *cur_snake_len+=1;
+        snake[*cur_snake_len].x=*f_row;
+        snake[*cur_snake_len].y=*f_col;
+        *f_row=(rand()%(T_ROW-2))+1;
+        *f_col=(rand()%(T_COL-2))+1;
         printf("collision");
         *point=*point+1;
-        cur_snake_len+=1;
         printf("%d",*f_col);
         printf("%d",*f_row);
     }
-    for(int i=0;i<*cur_snake_len;i++)
+    for (int i = *cur_snake_len - 1; i > 0; i--)
     {
-        snake[i].x=snake[i+1].x;
-        snake[i].y=snake[i+1].y;
-        if(i==*cur_snake_len-1)
+        snake[i].x = snake[i - 1].x;
+        snake[i].y = snake[i - 1].y;
+    }
+    snake[0].x = c_row;
+    snake[0].y = c_col;
+    field(T_ROW,T_COL,c_row,c_col,*f_row,*f_col,*point,snake,*cur_snake_len);
+    for(int i=0;i<=*cur_snake_len;i++)
+    {
+        for(int j=i+1;j<*cur_snake_len;j++)
         {
-            snake[i].x=c_row;
-            snake[i].y=c_col;
+            if(snake[i].x==snake[j].x&&snake[i].y==snake[j].y)
+            {
+                *game_over=true;
+                printf("\nYour score is: %d",*point);
+            }
         }
     }
-    field(T_ROW,T_COL,c_row,c_col,*f_row,*f_col,*point,snake,*cur_snake_len);
-    
 }
 int main()
 {
@@ -62,27 +73,28 @@ int main()
     int easy=100;
     int med=50;
     int hard=25;
+    // char cur_dir;
     switch (p_key)
     {
     case 'd':
         if(c_col==T_COL-2)
             c_col=1;
-        move(c_col++,c_row,&f_row,&f_col,&point,snake,&cur_snake_len);
+        move(c_col++,c_row,&f_row,&f_col,&point,snake,&cur_snake_len,&game_over);
         break;       
     case 'a':
         if(c_col==1)
             c_col=T_COL-1;
-        move(c_col--,c_row,&f_row,&f_col,&point,snake,&cur_snake_len);
+        move(c_col--,c_row,&f_row,&f_col,&point,snake,&cur_snake_len,&game_over);
         break;
     case 'w':
         if(c_row==1)
             c_row=T_ROW-1;
-        move(c_col,c_row--,&f_row,&f_col,&point,snake,&cur_snake_len);
+        move(c_col,c_row--,&f_row,&f_col,&point,snake,&cur_snake_len,&game_over);
         break;
     case 's':
         if(c_row==T_ROW-2)
             c_row=1;
-        move(c_col,c_row++,&f_row,&f_col,&point,snake,&cur_snake_len);
+        move(c_col,c_row++,&f_row,&f_col,&point,snake,&cur_snake_len,&game_over);
         break;
     case 'q':
         game_over=true;
