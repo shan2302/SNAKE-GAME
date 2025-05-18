@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "snake.h"
-void field(int t_row,int t_col,int s_row,int s_col,int f_row,int f_col,int point,struct Snake snake[],int snake_len )
+void field(int t_row,int t_col,int s_row,int s_col,int f_row,int f_col,int point,struct Snake snake[],int snake_len,char snake_sym)
 {
     int row,col;
     for(row=0;row<t_row;row++)
@@ -12,7 +12,7 @@ void field(int t_row,int t_col,int s_row,int s_col,int f_row,int f_col,int point
             {
                 if(snake[i].x==row&&snake[i].y==col)
                 {
-                    printf("S ");
+                    printf("%c ",snake_sym);
                     is_snake=1;
                     break;
                 }
@@ -25,7 +25,7 @@ void field(int t_row,int t_col,int s_row,int s_col,int f_row,int f_col,int point
             }
             else if(row==f_row && col==f_col)
             {
-                printf("F ");
+                printf("# ");
             }
             else
             {

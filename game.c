@@ -11,7 +11,7 @@
 #define SNAKE_LEN 51
 #include "snake.h"
 
-void move(int c_col,int c_row,int *f_row,int *f_col,int *point,struct Snake *snake,int *cur_snake_len,bool *game_over)
+void move(int c_col,int c_row,int *f_row,int *f_col,int *point,struct Snake *snake,int *cur_snake_len,bool *game_over,char snake_sym)
 {
     
     system("cls");
@@ -37,7 +37,7 @@ void move(int c_col,int c_row,int *f_row,int *f_col,int *point,struct Snake *sna
     }
     snake[0].x = c_row;
     snake[0].y = c_col;
-    field(T_ROW,T_COL,c_row,c_col,*f_row,*f_col,*point,snake,*cur_snake_len);
+    field(T_ROW,T_COL,c_row,c_col,*f_row,*f_col,*point,snake,*cur_snake_len,snake_sym);
     for(int i=0;i<=*cur_snake_len;i++)
     {
         for(int j=i+1;j<*cur_snake_len;j++)
@@ -55,6 +55,7 @@ int main()
     int c_row=T_ROW/2;
     int c_col=T_COL/2;
     char p_key;
+    char snake_sym='_';
     int f_row=F_ROW;
     int f_col = F_COL;
     bool game_over = false;
@@ -63,7 +64,7 @@ int main()
     snake[0].x=c_row;
     snake[0].y=c_col;
     int cur_snake_len=1;
-    field(T_ROW,T_COL,c_row,c_col,f_row,f_col,point,snake,cur_snake_len);
+    field(T_ROW,T_COL,c_row,c_col,f_row,f_col,point,snake,cur_snake_len,snake_sym);
     char cur_dir='b';
     while (!game_over)
     {
@@ -87,35 +88,39 @@ int main()
     {
         p_key='s';
     }
-    int easy=500;
-    int med=200;
+    int easy=250;
+    int med=150;
     int hard=100;
     // char cur_dir;
     switch (p_key)
     {
     case 'd':
         cur_dir='d';
+        snake_sym='_';
         if(c_col==T_COL-2)
             c_col=1;
-        move(c_col++,c_row,&f_row,&f_col,&point,snake,&cur_snake_len,&game_over);
+        move(c_col++,c_row,&f_row,&f_col,&point,snake,&cur_snake_len,&game_over,snake_sym);
         break;       
     case 'a':
         cur_dir='a';
+        snake_sym='_';
         if(c_col==1)
             c_col=T_COL-1;
-        move(c_col--,c_row,&f_row,&f_col,&point,snake,&cur_snake_len,&game_over);
+        move(c_col--,c_row,&f_row,&f_col,&point,snake,&cur_snake_len,&game_over,snake_sym);
         break;
     case 'w':
         cur_dir='w';
+        snake_sym='|';
         if(c_row==1)
             c_row=T_ROW-1;
-        move(c_col,c_row--,&f_row,&f_col,&point,snake,&cur_snake_len,&game_over);
+        move(c_col,c_row--,&f_row,&f_col,&point,snake,&cur_snake_len,&game_over,snake_sym);
         break;
     case 's':
         cur_dir='s';
+        snake_sym='|';
         if(c_row==T_ROW-2)
             c_row=1;
-        move(c_col,c_row++,&f_row,&f_col,&point,snake,&cur_snake_len,&game_over);
+        move(c_col,c_row++,&f_row,&f_col,&point,snake,&cur_snake_len,&game_over,snake_sym);
         break;
     case 'q':
         game_over=true;
