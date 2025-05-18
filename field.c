@@ -1,0 +1,47 @@
+#include <stdio.h>
+#include "snake.h"
+void field(int t_row,int t_col,int s_row,int s_col,int f_row,int f_col,int point,struct Snake snake[],int snake_len )
+{
+    int row,col;
+    for(row=0;row<t_row;row++)
+    {
+        for(col=0;col<t_col;col++)
+        {
+            for(int i=0;i<snake_len;i++)
+            {
+                if(snake[i].x==row&&snake[i].y==col)
+                {
+                    printf("S");
+                }
+            }
+            if(row==0||row==t_row-1)
+            {
+                printf("* ");
+            }
+            else if(row==f_row && col==f_col)
+            {
+                printf("F ");
+            }
+            else
+            {
+                if(col==0||col==t_col-1)
+                {
+                    printf("* ");
+                }
+                else
+                {
+                    printf("  ");
+                }
+            }
+            
+            
+        }
+        
+        if(row==0)
+        {
+            printf("\t");
+            printf("Points: %d",point);
+        }
+        printf("\n");
+    }
+}
