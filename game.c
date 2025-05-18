@@ -64,34 +64,55 @@ int main()
     snake[0].y=c_col;
     int cur_snake_len=1;
     field(T_ROW,T_COL,c_row,c_col,f_row,f_col,point,snake,cur_snake_len);
+    char cur_dir='b';
     while (!game_over)
     {
     // scanf("%c",&p_key);
     while (kbhit()) p_key = getch(); 
     while (p_key == -32 || p_key == 0) p_key = getch();
     printf("\n");
-    int easy=100;
-    int med=50;
-    int hard=25;
+    if(cur_dir=='a'&&p_key=='d'&&cur_snake_len>1)
+    {
+        p_key='a';
+    }
+    else if(cur_dir=='d'&&p_key=='a'&&cur_snake_len>1)
+    {
+        p_key='d';
+    }
+    else if(cur_dir=='w'&&p_key=='s'&&cur_snake_len>1)
+    {
+        p_key='w';
+    }
+    else if(cur_dir=='s'&&p_key=='w'&&cur_snake_len>1)
+    {
+        p_key='s';
+    }
+    int easy=500;
+    int med=200;
+    int hard=100;
     // char cur_dir;
     switch (p_key)
     {
     case 'd':
+        cur_dir='d';
         if(c_col==T_COL-2)
             c_col=1;
         move(c_col++,c_row,&f_row,&f_col,&point,snake,&cur_snake_len,&game_over);
         break;       
     case 'a':
+        cur_dir='a';
         if(c_col==1)
             c_col=T_COL-1;
         move(c_col--,c_row,&f_row,&f_col,&point,snake,&cur_snake_len,&game_over);
         break;
     case 'w':
+        cur_dir='w';
         if(c_row==1)
             c_row=T_ROW-1;
         move(c_col,c_row--,&f_row,&f_col,&point,snake,&cur_snake_len,&game_over);
         break;
     case 's':
+        cur_dir='s';
         if(c_row==T_ROW-2)
             c_row=1;
         move(c_col,c_row++,&f_row,&f_col,&point,snake,&cur_snake_len,&game_over);
